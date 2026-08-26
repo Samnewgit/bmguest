@@ -521,6 +521,81 @@
   .warning-box h3{margin:0 0 8px;font-size:18px;color:#76500c}
   .warning-box p{margin:0;color:#5f4a21;font-size:14px;line-height:1.4}
 
+
+
+  /* Regression concept slide */
+  .residual-layout{
+    display:grid;
+    grid-template-columns:1.48fr .82fr;
+    gap:22px;
+    width:100%;
+    min-height:0;
+    align-items:stretch;
+  }
+  .residual-graph{
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:#fff;
+    padding:14px 16px 12px;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+  }
+  .residual-graph svg{flex:1;min-height:0}
+  .concept-stack{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    min-height:0;
+  }
+  .concept-card{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:13px 15px;
+    background:#fff;
+  }
+  .concept-card h3{
+    margin:0 0 5px;
+    font-size:16px;
+    line-height:1.15;
+  }
+  .concept-card p{
+    margin:0;
+    font-size:12.5px;
+    line-height:1.35;
+    color:var(--muted);
+  }
+  .formula-card{
+    border:1px solid #cdd9ff;
+    background:var(--blue-soft);
+    border-radius:8px;
+    padding:13px 15px;
+  }
+  .formula-main{
+    font-size:20px;
+    line-height:1.2;
+    font-weight:900;
+    color:#173e9d;
+    letter-spacing:-.01em;
+  }
+  .formula-sub{
+    margin-top:5px;
+    color:#39517c;
+    font-size:12px;
+    line-height:1.3;
+    font-weight:700;
+  }
+  .best-fit-card{
+    border-left:5px solid var(--green);
+    background:var(--green-soft);
+    border-radius:7px;
+    padding:13px 15px;
+    font-size:13px;
+    line-height:1.35;
+    font-weight:800;
+    color:#145d3d;
+  }
+
   body.fullscreen-mode{
     background:#dfe4eb;
     overflow:hidden;
@@ -576,7 +651,7 @@
 <body>
 
 <div class="control-bar">
-  <span id="slide-indicator">Scroll Mode · 11 Slides</span>
+  <span id="slide-indicator">Scroll Mode · 12 Slides</span>
   <div class="btn-group">
     <button id="toggle-mode-btn" onclick="toggleSlideshow()">Start Slideshow</button>
     <button id="prev-btn" onclick="changeSlide(-1)">Previous</button>
@@ -641,7 +716,7 @@
           <path d="M372 431 L380 439 L394 421" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div class="slide-number" style="position:absolute;left:72px;bottom:28px">01 / 11</div>
+      <div class="slide-number" style="position:absolute;left:72px;bottom:28px">01 / 12</div>
     </section>
   </div>
 
@@ -670,7 +745,7 @@
           <span class="tag blue">Decision first</span>
         </div>
       </div>
-      <div class="slide-number">02 / 11</div>
+      <div class="slide-number">02 / 12</div>
     </section>
   </div>
 
@@ -736,7 +811,7 @@
           </div>
         </div>
       </div>
-      <div class="slide-number">03 / 11</div>
+      <div class="slide-number">03 / 12</div>
     </section>
   </div>
 
@@ -794,7 +869,7 @@
           </div>
         </div>
       </div>
-      <div class="slide-number">04 / 11</div>
+      <div class="slide-number">04 / 12</div>
     </section>
   </div>
 
@@ -847,7 +922,7 @@
           <p><strong>Business implication:</strong> if payroll, stock purchases and debt payments depend on predictable weekly revenue, the spread matters as much as the average.</p>
         </div>
       </div>
-      <div class="slide-number">05 / 11</div>
+      <div class="slide-number">05 / 12</div>
     </section>
   </div>
 
@@ -903,7 +978,7 @@
           Branch A has a slightly higher centre, but the more useful insight is that its mean and median are almost identical — a sign of a more balanced performance profile.
         </div>
       </div>
-      <div class="slide-number">06 / 11</div>
+      <div class="slide-number">06 / 12</div>
     </section>
   </div>
 
@@ -953,7 +1028,7 @@
           </svg>
         </div>
       </div>
-      <div class="slide-number">07 / 11</div>
+      <div class="slide-number">07 / 12</div>
     </section>
   </div>
 
@@ -1008,11 +1083,148 @@
           </div>
         </div>
       </div>
-      <div class="slide-number">08 / 11</div>
+      <div class="slide-number">08 / 12</div>
     </section>
   </div>
 
-  <!-- SLIDE 9 -->
+
+  <!-- SLIDE 9: Regression Concept -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>How a Regression Line Learns From Error</h2>
+        <p>Every data point creates a prediction error. The best-fit line is the line that makes those squared errors as small as possible.</p>
+      </header>
+
+      <div class="slide-body">
+        <div class="residual-layout">
+          <div class="residual-graph">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+              <div class="chart-title" style="margin:0">Observed revenue vs predicted revenue</div>
+              <div class="legend" style="margin:0">
+                <span><i class="dot"></i>Observed point</span>
+                <span><i class="dot green"></i>Regression line</span>
+              </div>
+            </div>
+
+            <svg viewBox="0 0 690 405" role="img" aria-label="Regression line with residual distances from observed points">
+              <defs>
+                <marker id="axisArrowResidual" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="#7d8795"/>
+                </marker>
+              </defs>
+
+              <!-- plotting area -->
+              <rect x="66" y="30" width="555" height="315" rx="7" fill="#fbfcfe" stroke="#eef1f5"/>
+              <g stroke="#edf0f4" stroke-width="1">
+                <line x1="66" y1="93" x2="621" y2="93"/>
+                <line x1="66" y1="156" x2="621" y2="156"/>
+                <line x1="66" y1="219" x2="621" y2="219"/>
+                <line x1="66" y1="282" x2="621" y2="282"/>
+                <line x1="177" y1="30" x2="177" y2="345"/>
+                <line x1="288" y1="30" x2="288" y2="345"/>
+                <line x1="399" y1="30" x2="399" y2="345"/>
+                <line x1="510" y1="30" x2="510" y2="345"/>
+              </g>
+
+              <!-- axes -->
+              <line x1="66" y1="345" x2="638" y2="345" stroke="#7d8795" stroke-width="2.2" marker-end="url(#axisArrowResidual)"/>
+              <line x1="66" y1="345" x2="66" y2="18" stroke="#7d8795" stroke-width="2.2" marker-end="url(#axisArrowResidual)"/>
+              <text x="342" y="392" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">ADVERTISING SPEND (x)</text>
+              <text transform="translate(20,188) rotate(-90)" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">REVENUE (y)</text>
+
+              <!-- regression line -->
+              <line x1="92" y1="315" x2="598" y2="65" stroke="#19724b" stroke-width="4.5" stroke-linecap="round"/>
+              <text x="488" y="56" font-size="12" font-weight="900" fill="#19724b">REGRESSION LINE</text>
+
+              <!-- predicted points on line -->
+              <g fill="#19724b">
+                <circle cx="143" cy="290" r="4.5"/>
+                <circle cx="231" cy="247" r="4.5"/>
+                <circle cx="319" cy="203" r="4.5"/>
+                <circle cx="407" cy="160" r="4.5"/>
+                <circle cx="495" cy="116" r="4.5"/>
+                <circle cx="570" cy="79" r="4.5"/>
+              </g>
+
+              <!-- residuals -->
+              <g stroke="#c84141" stroke-width="3" stroke-linecap="round">
+                <line x1="143" y1="290" x2="143" y2="252"/>
+                <line x1="231" y1="247" x2="231" y2="278"/>
+                <line x1="319" y1="203" x2="319" y2="149"/>
+                <line x1="407" y1="160" x2="407" y2="194"/>
+                <line x1="495" y1="116" x2="495" y2="72"/>
+                <line x1="570" y1="79" x2="570" y2="103"/>
+              </g>
+
+              <!-- observed data -->
+              <g fill="#2457d6" stroke="#fff" stroke-width="2.5">
+                <circle cx="143" cy="252" r="8"/>
+                <circle cx="231" cy="278" r="8"/>
+                <circle cx="319" cy="149" r="8"/>
+                <circle cx="407" cy="194" r="8"/>
+                <circle cx="495" cy="72" r="8"/>
+                <circle cx="570" cy="103" r="8"/>
+              </g>
+
+              <!-- residual labels -->
+              <g font-size="12" font-weight="900" fill="#c84141">
+                <text x="154" y="272">e₁</text>
+                <text x="242" y="267">e₂</text>
+                <text x="330" y="178">e₃</text>
+                <text x="418" y="181">e₄</text>
+                <text x="506" y="96">e₅</text>
+                <text x="581" y="96">e₆</text>
+              </g>
+
+              <!-- visual definition -->
+              <g transform="translate(92,46)">
+                <rect x="0" y="0" width="220" height="52" rx="7" fill="#fff4f4" stroke="#efcaca"/>
+                <line x1="20" y1="13" x2="20" y2="39" stroke="#c84141" stroke-width="3"/>
+                <circle cx="20" cy="13" r="5" fill="#2457d6"/>
+                <circle cx="20" cy="39" r="4" fill="#19724b"/>
+                <text x="38" y="22" font-size="11" font-weight="900" fill="#9f2828">Residual = actual − predicted</text>
+                <text x="38" y="39" font-size="10.5" font-weight="700" fill="#5b6472">Vertical distance from point to line</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="concept-stack">
+            <div class="concept-card">
+              <div class="eyebrow">1 · Prediction</div>
+              <h3>The line gives ŷ</h3>
+              <p>For each advertising spend, the line predicts a revenue value.</p>
+            </div>
+
+            <div class="concept-card" style="border-color:#efcaca;background:#fff8f8">
+              <div class="eyebrow" style="color:#9f2828">2 · Residual</div>
+              <h3 style="color:#9f2828">e = y − ŷ</h3>
+              <p>The red vertical gap shows how wrong the prediction is for that observation.</p>
+            </div>
+
+            <div class="formula-card">
+              <div class="eyebrow" style="color:#39517c">3 · Total error</div>
+              <div class="formula-main">RSS = e₁² + e₂² + … + eₙ²</div>
+              <div class="formula-sub">Squaring prevents positive and negative errors from cancelling each other.</div>
+            </div>
+
+            <div class="best-fit-card">
+              Best-fit principle: move the line until the Residual Sum of Squares is as small as possible.
+            </div>
+
+            <div class="concept-card" style="background:#f7f9fc">
+              <div class="eyebrow">Business meaning</div>
+              <h3>Smaller residuals = more dependable predictions</h3>
+              <p>A line may show a positive trend, but managers should also ask how closely the observations actually follow it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">09 / 12</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 10 -->
   <div class="slide-wrapper">
     <section class="slide">
       <header class="slide-header">
@@ -1072,11 +1284,11 @@
           </div>
         </div>
       </div>
-      <div class="slide-number">09 / 11</div>
+      <div class="slide-number">10 / 12</div>
     </section>
   </div>
 
-  <!-- SLIDE 10 -->
+  <!-- SLIDE 11 -->
   <div class="slide-wrapper">
     <section class="slide">
       <header class="slide-header">
@@ -1125,11 +1337,11 @@
           </div>
         </div>
       </div>
-      <div class="slide-number">10 / 11</div>
+      <div class="slide-number">11 / 12</div>
     </section>
   </div>
 
-  <!-- SLIDE 11 -->
+  <!-- SLIDE 12 -->
   <div class="slide-wrapper">
     <section class="slide">
       <header class="slide-header">
@@ -1174,7 +1386,7 @@
           A statistic is useful only when it improves a business decision.
         </div>
       </div>
-      <div class="slide-number">11 / 11</div>
+      <div class="slide-number">12 / 12</div>
     </section>
   </div>
 
