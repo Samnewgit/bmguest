@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descriptive Statistics in Business Management</title>
+<style>
+  :root{
+    --ink:#111827;
+    --muted:#5b6472;
+    --line:#d9dee7;
+    --panel:#f6f8fb;
+    --blue:#2457d6;
+    --blue-soft:#eaf0ff;
+    --red:#c84141;
+    --red-soft:#fff0f0;
+    --green:#19724b;
+    --green-soft:#eaf7f0;
+    --amber:#9a6a12;
+    --amber-soft:#fff7df;
+    --white:#ffffff;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:#e7eaf0;
+    color:var(--ink);
+    font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    min-height:100vh;
+  }
+
+  .control-bar{
+    width:100%;
+    max-width:1280px;
+    margin:0 auto;
+    background:#111827;
+    color:white;
+    padding:10px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .control-bar span{font-size:13px;font-weight:600;letter-spacing:.02em}
+  .btn-group{display:flex;gap:8px}
+  button{
+    border:0;
+    border-radius:4px;
+    padding:8px 13px;
+    background:#2f63df;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+  }
+  button:disabled{opacity:.4;cursor:not-allowed}
+  button:hover:not(:disabled){filter:brightness(.95)}
+
+  .presentation-container{
+    width:100%;
+    max-width:1320px;
+    margin:0 auto;
+    padding:30px 24px 48px;
+    display:flex;
+    flex-direction:column;
+    gap:34px;
+  }
+  .slide-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    align-self:center;
+    width:100%;
+    min-height:1px;
+  }
+  .slide{
+    width:1200px;
+    height:675px;
+    flex:0 0 1200px;
+    background:white;
+    padding:54px 66px 34px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 12px 28px rgba(17,24,39,.10);
+    display:flex;
+    flex-direction:column;
+    transform-origin:top left;
+    border:1px solid #dfe4ec;
+    border-radius:10px;
+  }
+  .slide:before{
+    content:"";
+    position:absolute;
+    left:66px;
+    top:0;
+    width:70px;
+    height:6px;
+    background:var(--blue);
+  }
+  .slide-header{margin-bottom:18px}
+  .slide-header h2{
+    margin:0 0 6px;
+    font-size:32px;
+    line-height:1.08;
+    letter-spacing:-.02em;
+  }
+  .slide-header p{
+    margin:0;
+    color:var(--muted);
+    font-size:17px;
+    line-height:1.35;
+  }
+  .slide-body{
+    flex:1;
+    min-height:0;
+    display:flex;
+    align-items:stretch;
+  }
+  .slide-number{
+    margin-top:10px;
+    font-size:12px;
+    color:#98a0ad;
+    letter-spacing:.04em;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:26px;width:100%;align-items:stretch}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%}
+  .panel{
+    border:1px solid var(--line);
+    background:var(--panel);
+    border-radius:8px;
+    padding:20px;
+  }
+  .panel.white{background:white}
+  .panel.blue{background:var(--blue-soft);border-color:#cdd9ff}
+  .panel.red{background:var(--red-soft);border-color:#f2c7c7}
+  .panel.green{background:var(--green-soft);border-color:#c8ead7}
+  .panel.amber{background:var(--amber-soft);border-color:#efdea5}
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.09em;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:800;
+  }
+  .big-number{
+    font-size:40px;
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-.03em;
+  }
+  .metric{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .metric:last-child{border-bottom:0}
+  .metric .label{font-size:14px;color:var(--muted);font-weight:700}
+  .metric .value{font-size:26px;font-weight:800}
+  .small{font-size:13px;color:var(--muted);line-height:1.35}
+  .decision{
+    border-left:5px solid var(--blue);
+    padding:13px 16px;
+    background:#f8faff;
+    font-size:16px;
+    line-height:1.35;
+    font-weight:700;
+  }
+  .callout{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    border:1px solid var(--line);
+    padding:15px 18px;
+    border-radius:8px;
+    background:white;
+  }
+  .callout strong{font-size:17px}
+  .tag{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:#eef1f6;
+  }
+  .tag.blue{background:var(--blue-soft);color:#173e9d}
+  .tag.red{background:var(--red-soft);color:#9f2828}
+  .tag.green{background:var(--green-soft);color:#145d3d}
+  .tag.amber{background:var(--amber-soft);color:#76500c}
+  .legend{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:6px;
+    font-size:12px;
+    color:var(--muted);
+    font-weight:700;
+  }
+  .legend span{display:flex;align-items:center;gap:6px}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--blue)}
+  .dot.red{background:var(--red)}
+  .dot.green{background:var(--green)}
+  .dot.amber{background:var(--amber)}
+
+  svg{width:100%;height:100%;display:block}
+  .chart-card{
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:white;
+    padding:14px;
+    min-height:0;
+  }
+  .chart-title{
+    font-size:12px;
+    font-weight:800;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.07em;
+    margin-bottom:6px;
+  }
+
+  .title-slide{
+    padding:0;
+    display:grid;
+    grid-template-columns:1.02fr .98fr;
+  }
+  .title-slide:before{left:0;width:100px}
+  .title-left{
+    padding:86px 58px 60px 72px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .title-left .kicker{
+    color:var(--blue);
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:12px;
+    font-weight:900;
+    margin-bottom:20px;
+  }
+  .title-left h1{
+    margin:0;
+    max-width:590px;
+    font-size:48px;
+    line-height:1.05;
+    letter-spacing:-.035em;
+  }
+  .title-left p{
+    font-size:20px;
+    color:var(--muted);
+    margin:20px 0 0;
+    line-height:1.35;
+    max-width:520px;
+  }
+  .title-right{
+    background:#f7f9fc;
+    border-left:1px solid var(--line);
+    padding:64px 54px;
+    display:flex;
+    align-items:center;
+  }
+
+  .video-frame{
+    width:100%;
+    max-width:820px;
+    height:405px;
+    margin:auto;
+    background:#0b1220;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #cfd6e2;
+    box-shadow:0 10px 28px rgba(17,24,39,.14);
+    position:relative;
+  }
+  .video-frame iframe{width:100%;height:100%;border:0;display:block}
+  .video-thumbnail{
+    width:100%;
+    height:100%;
+    position:relative;
+    cursor:pointer;
+    overflow:hidden;
+    background:#111827;
+  }
+  .video-thumbnail img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:saturate(.92) contrast(1.03);
+  }
+  .video-thumbnail:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,rgba(10,16,28,.08),rgba(10,16,28,.28));
+  }
+  .play-button{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:76px;
+    height:54px;
+    transform:translate(-50%,-50%);
+    border-radius:14px;
+    background:#d92727;
+    box-shadow:0 8px 24px rgba(0,0,0,.28);
+    z-index:2;
+    display:grid;
+    place-items:center;
+  }
+  .play-button:before{
+    content:"";
+    width:0;
+    height:0;
+    border-top:11px solid transparent;
+    border-bottom:11px solid transparent;
+    border-left:18px solid white;
+    margin-left:4px;
+  }
+  .video-caption{
+    position:absolute;
+    left:18px;
+    bottom:16px;
+    z-index:2;
+    color:white;
+    font-size:13px;
+    font-weight:800;
+    background:rgba(17,24,39,.76);
+    padding:7px 10px;
+    border-radius:5px;
+    backdrop-filter:blur(3px);
+  }
+
+  .flow{
+    display:grid;
+    grid-template-columns:1fr 60px 1fr 60px 1fr;
+    align-items:center;
+    gap:8px;
+    width:100%;
+  }
+  .flow-box{
+    min-height:240px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background:white;
+  }
+  .flow-box .step{
+    font-size:12px;
+    color:var(--muted);
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .flow-box h3{font-size:23px;line-height:1.1;margin:10px 0 12px}
+  .flow-box p{font-size:14px;line-height:1.4;color:var(--muted);margin:0}
+  .arrow{
+    text-align:center;
+    font-size:34px;
+    font-weight:300;
+    color:#8a94a4;
+  }
+
+  .decision-board{
+    display:grid;
+    grid-template-columns:1fr 1.12fr;
+    gap:28px;
+    width:100%;
+  }
+  .brief{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:18px;
+  }
+  .brief h3{font-size:34px;margin:0;line-height:1.05}
+  .brief p{font-size:16px;line-height:1.45;color:var(--muted);margin:0}
+  .money{
+    font-size:48px;
+    font-weight:900;
+    letter-spacing:-.04em;
+    color:var(--blue);
+  }
+  .branch-compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .branch{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    background:white;
+  }
+  .branch h4{font-size:22px;margin:0 0 12px}
+  .branch ul{margin:0;padding-left:18px}
+  .branch li{margin:8px 0;font-size:14px;line-height:1.3}
+
+  .mean-strip{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    width:100%;
+  }
+  .distribution-card{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    background:white;
+  }
+  .distribution-card h3{margin:0 0 8px;font-size:20px}
+  .values{
+    display:flex;
+    justify-content:space-between;
+    gap:6px;
+    margin:12px 0 8px;
+  }
+  .values span{
+    flex:1;
+    text-align:center;
+    padding:9px 0;
+    border-radius:5px;
+    background:#eef2f7;
+    font-weight:800;
+    font-size:16px;
+  }
+  .values.red span{background:#fbeaea}
+  .mean-label{
+    margin-top:12px;
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  .risk-banner{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:18px;
+    align-items:center;
+    border:1px solid #efcdcd;
+    background:#fff7f7;
+    border-radius:8px;
+    padding:15px 18px;
+  }
+  .risk-banner .word{
+    font-size:22px;
+    font-weight:900;
+    color:var(--red);
+  }
+  .risk-banner p{margin:0;font-size:15px;line-height:1.4}
+
+  .two-metrics{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+    width:100%;
+  }
+  .metric-card{
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:white;
+    padding:20px;
+  }
+  .metric-card h3{margin:0 0 14px;font-size:20px}
+  .dual{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .mini{
+    border-radius:6px;
+    padding:14px;
+    background:#f5f7fa;
+  }
+  .mini .n{font-size:27px;font-weight:900}
+  .mini .t{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px}
+
+  .decision-matrix{
+    width:100%;
+    display:grid;
+    grid-template-columns:170px 1fr 1fr;
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+    background:white;
+  }
+  .decision-matrix > div{
+    padding:13px 16px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .decision-matrix > div:nth-child(3n){border-right:0}
+  .decision-matrix > div:nth-last-child(-n+3){border-bottom:0}
+  .decision-matrix .head{font-weight:900;background:#f3f5f8}
+  .decision-matrix .a{background:#f3f7ff}
+  .decision-matrix .b{background:#fff4f4}
+  .score{font-weight:900;font-size:20px}
+
+  .warning-box{
+    border:1px solid #e9c77a;
+    background:#fffaf0;
+    border-radius:8px;
+    padding:17px 18px;
+  }
+  .warning-box h3{margin:0 0 8px;font-size:18px;color:#76500c}
+  .warning-box p{margin:0;color:#5f4a21;font-size:14px;line-height:1.4}
+
+  body.fullscreen-mode{
+    background:#dfe4eb;
+    overflow:hidden;
+  }
+  body.fullscreen-mode .control-bar{
+    position:fixed;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 32px);
+    max-width:1240px;
+    border-radius:8px;
+    z-index:50;
+    box-shadow:0 8px 24px rgba(17,24,39,.18);
+  }
+  body.fullscreen-mode .presentation-container{
+    position:fixed;
+    inset:0;
+    max-width:none;
+    width:100vw;
+    height:100vh;
+    padding:76px 24px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#dfe4eb;
+  }
+  body.fullscreen-mode .slide-wrapper{
+    display:none;
+    width:auto;
+    height:auto;
+    flex:none;
+    justify-content:center;
+    align-items:flex-start;
+  }
+  body.fullscreen-mode .slide-wrapper.active{display:flex}
+  body.fullscreen-mode .slide{
+    box-shadow:0 16px 42px rgba(17,24,39,.18);
+    border-radius:10px;
+  }
+
+  @media (max-width:700px){
+    .control-bar{padding:9px 10px}
+    .control-bar span{font-size:11px}
+    button{padding:7px 9px;font-size:12px}
+    .btn-group{gap:5px}
+    .presentation-container{padding-left:12px;padding-right:12px}
+    body.fullscreen-mode .control-bar{top:8px;width:calc(100% - 16px)}
+    body.fullscreen-mode .presentation-container{padding:66px 12px 12px}
+  }
+</style>
+</head>
+<body>
+
+<div class="control-bar">
+  <span id="slide-indicator">Scroll Mode · 11 Slides</span>
+  <div class="btn-group">
+    <button id="toggle-mode-btn" onclick="toggleSlideshow()">Start Slideshow</button>
+    <button id="prev-btn" onclick="changeSlide(-1)">Previous</button>
+    <button id="next-btn" onclick="changeSlide(1)">Next</button>
+  </div>
+</div>
+
+<div class="presentation-container">
+
+  <!-- SLIDE 1 -->
+  <div class="slide-wrapper active">
+    <section class="slide title-slide">
+      <div class="title-left">
+        <div class="kicker">IB DP Business Management</div>
+        <h1>Descriptive Statistics for Better Business Decisions</h1>
+        <p>One investment decision. Two branches. Several statistical signals — and no single number tells the whole story.</p>
+      </div>
+
+      <div class="title-right">
+        <svg viewBox="0 0 470 500" aria-label="Data to decision visual">
+          <defs>
+            <marker id="arrowHead1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+              <polygon points="0 0, 9 4.5, 0 9" fill="#6b7482"/>
+            </marker>
+          </defs>
+
+          <rect x="35" y="38" width="400" height="92" rx="12" fill="#ffffff" stroke="#d9dee7"/>
+          <text x="60" y="68" font-size="13" font-weight="800" fill="#5b6472" letter-spacing="1">RAW BUSINESS DATA</text>
+          <g transform="translate(60,88)">
+            <rect x="0" y="0" width="52" height="22" rx="4" fill="#eaf0ff"/>
+            <rect x="61" y="0" width="80" height="22" rx="4" fill="#eaf0ff"/>
+            <rect x="150" y="0" width="60" height="22" rx="4" fill="#eaf0ff"/>
+            <rect x="219" y="0" width="74" height="22" rx="4" fill="#eaf0ff"/>
+            <rect x="302" y="0" width="48" height="22" rx="4" fill="#eaf0ff"/>
+          </g>
+
+          <line x1="235" y1="138" x2="235" y2="188" stroke="#6b7482" stroke-width="2.2" marker-end="url(#arrowHead1)"/>
+
+          <rect x="35" y="195" width="400" height="132" rx="12" fill="#ffffff" stroke="#d9dee7"/>
+          <text x="60" y="226" font-size="13" font-weight="800" fill="#5b6472" letter-spacing="1">STATISTICAL EVIDENCE</text>
+
+          <g transform="translate(60,247)">
+            <rect x="0" y="0" width="90" height="52" rx="7" fill="#eaf0ff"/>
+            <text x="45" y="22" text-anchor="middle" font-size="18" font-weight="900" fill="#2457d6">54.1</text>
+            <text x="45" y="39" text-anchor="middle" font-size="10" font-weight="700" fill="#5b6472">MEAN</text>
+
+            <rect x="104" y="0" width="90" height="52" rx="7" fill="#eaf7f0"/>
+            <text x="149" y="22" text-anchor="middle" font-size="18" font-weight="900" fill="#19724b">5.43</text>
+            <text x="149" y="39" text-anchor="middle" font-size="10" font-weight="700" fill="#5b6472">SD</text>
+
+            <rect x="208" y="0" width="90" height="52" rx="7" fill="#fff7df"/>
+            <text x="253" y="22" text-anchor="middle" font-size="18" font-weight="900" fill="#9a6a12">0.997</text>
+            <text x="253" y="39" text-anchor="middle" font-size="10" font-weight="700" fill="#5b6472">r</text>
+          </g>
+
+          <line x1="235" y1="335" x2="235" y2="385" stroke="#6b7482" stroke-width="2.2" marker-end="url(#arrowHead1)"/>
+
+          <rect x="35" y="392" width="400" height="76" rx="12" fill="#111827"/>
+          <text x="60" y="422" font-size="13" font-weight="800" fill="#cbd2dc" letter-spacing="1">BUSINESS DECISION</text>
+          <text x="60" y="448" font-size="22" font-weight="900" fill="#ffffff">Invest in A or B?</text>
+          <circle cx="382" cy="430" r="22" fill="#2457d6"/>
+          <path d="M372 431 L380 439 L394 421" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="slide-number" style="position:absolute;left:72px;bottom:28px">01 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Data Analytics in Action: Starbucks</h2>
+        <p>Before the calculations, watch the business problem: data is valuable only when it changes a decision.</p>
+      </header>
+      <div class="slide-body" style="flex-direction:column;justify-content:center">
+        <div class="video-frame" id="starbucks-video">
+          <div class="video-thumbnail" role="button" tabindex="0" aria-label="Play Starbucks data analytics video" onclick="playStarbucksVideo()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playStarbucksVideo();}">
+            <img src="https://i.ytimg.com/vi/URnKTnWJhDA/maxresdefault.jpg"
+                 onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/URnKTnWJhDA/hqdefault.jpg';"
+                 alt="Starbucks data analytics video thumbnail">
+            <div class="play-button" aria-hidden="true"></div>
+            <div class="video-caption">Starbucks · Data analytics in business</div>
+          </div>
+        </div>
+        <div class="callout" style="max-width:820px;margin:16px auto 0">
+          <div>
+            <strong>While watching, look for one thing:</strong>
+            <div class="small">What decision is the company trying to improve?</div>
+          </div>
+          <span class="tag blue">Decision first</span>
+        </div>
+      </div>
+      <div class="slide-number">02 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>How Business Data Becomes a Decision</h2>
+        <p>Managers do not need more numbers. They need a disciplined path from observation to action.</p>
+      </header>
+      <div class="slide-body">
+        <div class="flow">
+          <div class="flow-box">
+            <div>
+              <div class="step">Step 1</div>
+              <h3>Observe</h3>
+              <p>Transactions, ad spend, customer visits, store revenue, location patterns.</p>
+            </div>
+            <svg viewBox="0 0 220 82" style="height:82px">
+              <line x1="10" y1="64" x2="210" y2="64" stroke="#cfd5df" stroke-width="1"/>
+              <rect x="18" y="38" width="22" height="26" fill="#b8c9f7"/>
+              <rect x="52" y="28" width="22" height="36" fill="#9db5f2"/>
+              <rect x="86" y="43" width="22" height="21" fill="#7899ea"/>
+              <rect x="120" y="18" width="22" height="46" fill="#537be3"/>
+              <rect x="154" y="26" width="22" height="38" fill="#2457d6"/>
+              <rect x="188" y="10" width="22" height="54" fill="#173e9d"/>
+            </svg>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-box">
+            <div>
+              <div class="step">Step 2</div>
+              <h3>Summarize</h3>
+              <p>Mean, median, spread, quartiles, correlation and regression reduce complexity.</p>
+            </div>
+            <svg viewBox="0 0 220 82" style="height:82px">
+              <circle cx="45" cy="41" r="28" fill="#eaf0ff"/>
+              <text x="45" y="38" text-anchor="middle" font-size="16" font-weight="900" fill="#2457d6">x̄</text>
+              <text x="45" y="53" text-anchor="middle" font-size="9" font-weight="800" fill="#5b6472">MEAN</text>
+              <circle cx="110" cy="41" r="28" fill="#eaf7f0"/>
+              <text x="110" y="38" text-anchor="middle" font-size="16" font-weight="900" fill="#19724b">σ</text>
+              <text x="110" y="53" text-anchor="middle" font-size="9" font-weight="800" fill="#5b6472">SPREAD</text>
+              <circle cx="175" cy="41" r="28" fill="#fff7df"/>
+              <text x="175" y="38" text-anchor="middle" font-size="16" font-weight="900" fill="#9a6a12">r</text>
+              <text x="175" y="53" text-anchor="middle" font-size="9" font-weight="800" fill="#5b6472">LINK</text>
+            </svg>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-box">
+            <div>
+              <div class="step">Step 3</div>
+              <h3>Decide</h3>
+              <p>Choose the option that best fits the firm's objective, risk tolerance and evidence.</p>
+            </div>
+            <svg viewBox="0 0 220 82" style="height:82px">
+              <rect x="17" y="13" width="82" height="56" rx="7" fill="#eaf0ff" stroke="#cbd7fb"/>
+              <text x="58" y="37" text-anchor="middle" font-size="22" font-weight="900" fill="#2457d6">A</text>
+              <text x="58" y="54" text-anchor="middle" font-size="9" font-weight="800" fill="#5b6472">LOWER RISK</text>
+              <rect x="121" y="13" width="82" height="56" rx="7" fill="#fff0f0" stroke="#f0caca"/>
+              <text x="162" y="37" text-anchor="middle" font-size="22" font-weight="900" fill="#c84141">B</text>
+              <text x="162" y="54" text-anchor="middle" font-size="9" font-weight="800" fill="#5b6472">HIGHER UPSIDE</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">03 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>The $500,000 Capital Allocation Dilemma</h2>
+        <p>You are the analyst. Ten weeks of evidence. One recommendation.</p>
+      </header>
+      <div class="slide-body">
+        <div class="decision-board">
+          <div class="brief">
+            <div>
+              <div class="eyebrow">Available capital</div>
+              <div class="money">$500,000</div>
+            </div>
+            <h3>Which branch should receive the investment?</h3>
+            <p>Your recommendation must survive a boardroom question: <strong>“What evidence makes this choice better?”</strong></p>
+            <div class="decision">Do not choose the branch with the biggest number. Choose the branch whose statistical profile best fits the objective.</div>
+          </div>
+
+          <div class="branch-compare">
+            <div class="branch">
+              <span class="tag blue">Branch A</span>
+              <h4>Stable performer</h4>
+              <svg viewBox="0 0 240 120" style="height:120px;margin:8px 0">
+                <polyline points="10,76 35,70 60,66 85,62 110,58 135,54 160,50 185,46 210,42 230,39"
+                          fill="none" stroke="#2457d6" stroke-width="4" stroke-linecap="round"/>
+                <line x1="10" y1="100" x2="230" y2="100" stroke="#d9dee7"/>
+                <line x1="10" y1="20" x2="10" y2="100" stroke="#d9dee7"/>
+              </svg>
+              <ul>
+                <li>Revenue changes are relatively smooth.</li>
+                <li>Advertising response appears predictable.</li>
+                <li>Lower operational uncertainty.</li>
+              </ul>
+            </div>
+
+            <div class="branch">
+              <span class="tag red">Branch B</span>
+              <h4>Volatile performer</h4>
+              <svg viewBox="0 0 240 120" style="height:120px;margin:8px 0">
+                <polyline points="10,92 35,58 60,80 85,32 110,73 135,25 160,65 185,18 210,54 230,27"
+                          fill="none" stroke="#c84141" stroke-width="4" stroke-linecap="round"/>
+                <line x1="10" y1="100" x2="230" y2="100" stroke="#d9dee7"/>
+                <line x1="10" y1="20" x2="10" y2="100" stroke="#d9dee7"/>
+              </svg>
+              <ul>
+                <li>Large swings between weeks.</li>
+                <li>Higher possible revenue upside.</li>
+                <li>Greater uncertainty around planning.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">04 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Same Mean. Completely Different Business Reality.</h2>
+        <p>The average answers “where is the centre?” It does not answer “how risky is the journey around it?”</p>
+      </header>
+      <div class="slide-body" style="flex-direction:column">
+        <div class="mean-strip">
+          <div class="distribution-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h3>Store A · Low spread</h3><span class="tag blue">Mean = 50</span>
+            </div>
+            <div class="values"><span>48</span><span>49</span><span>50</span><span>51</span><span>52</span></div>
+            <svg viewBox="0 0 460 120" style="height:120px">
+              <line x1="35" y1="80" x2="425" y2="80" stroke="#aeb6c3" stroke-width="2"/>
+              <line x1="230" y1="22" x2="230" y2="92" stroke="#2457d6" stroke-width="2" stroke-dasharray="5 5"/>
+              <circle cx="180" cy="72" r="8" fill="#2457d6"/>
+              <circle cx="205" cy="58" r="8" fill="#2457d6"/>
+              <circle cx="230" cy="46" r="8" fill="#2457d6"/>
+              <circle cx="255" cy="58" r="8" fill="#2457d6"/>
+              <circle cx="280" cy="72" r="8" fill="#2457d6"/>
+              <text x="230" y="110" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">Tightly clustered</text>
+            </svg>
+          </div>
+
+          <div class="distribution-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h3>Store B · High spread</h3><span class="tag red">Mean = 50</span>
+            </div>
+            <div class="values red"><span>20</span><span>35</span><span>50</span><span>65</span><span>80</span></div>
+            <svg viewBox="0 0 460 120" style="height:120px">
+              <line x1="35" y1="80" x2="425" y2="80" stroke="#aeb6c3" stroke-width="2"/>
+              <line x1="230" y1="22" x2="230" y2="92" stroke="#c84141" stroke-width="2" stroke-dasharray="5 5"/>
+              <circle cx="75" cy="72" r="8" fill="#c84141"/>
+              <circle cx="150" cy="58" r="8" fill="#c84141"/>
+              <circle cx="230" cy="46" r="8" fill="#c84141"/>
+              <circle cx="310" cy="58" r="8" fill="#c84141"/>
+              <circle cx="385" cy="72" r="8" fill="#c84141"/>
+              <text x="230" y="110" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">Widely dispersed</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="risk-banner">
+          <div class="word">Mean ≠ Risk</div>
+          <p><strong>Business implication:</strong> if payroll, stock purchases and debt payments depend on predictable weekly revenue, the spread matters as much as the average.</p>
+        </div>
+      </div>
+      <div class="slide-number">05 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Central Tendency: What Counts as “Typical”?</h2>
+        <p>Use mean and median together. When they disagree, the shape of the data is telling you something.</p>
+      </header>
+      <div class="slide-body" style="flex-direction:column;gap:18px">
+        <div class="two-metrics">
+          <div class="metric-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h3>Branch A</h3><span class="tag blue">More balanced</span>
+            </div>
+            <div class="dual">
+              <div class="mini"><div class="n" style="color:var(--blue)">54.10k</div><div class="t">MEAN</div></div>
+              <div class="mini"><div class="n">54.00k</div><div class="t">MEDIAN</div></div>
+            </div>
+            <svg viewBox="0 0 440 125" style="height:125px;margin-top:8px">
+              <line x1="40" y1="88" x2="400" y2="88" stroke="#c4cbd6" stroke-width="2"/>
+              <line x1="217" y1="40" x2="217" y2="95" stroke="#2457d6" stroke-width="3"/>
+              <line x1="222" y1="48" x2="222" y2="95" stroke="#111827" stroke-width="2"/>
+              <text x="217" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#2457d6">MEAN</text>
+              <text x="248" y="50" font-size="11" font-weight="800" fill="#111827">MEDIAN</text>
+              <path d="M75 85 C115 72,145 58,180 50 C205 44,235 44,260 50 C300 59,334 71,370 85"
+                    fill="none" stroke="#2457d6" stroke-width="4"/>
+            </svg>
+          </div>
+
+          <div class="metric-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h3>Branch B</h3><span class="tag red">More skewed</span>
+            </div>
+            <div class="dual">
+              <div class="mini"><div class="n" style="color:var(--red)">53.80k</div><div class="t">MEAN</div></div>
+              <div class="mini"><div class="n">52.50k</div><div class="t">MEDIAN</div></div>
+            </div>
+            <svg viewBox="0 0 440 125" style="height:125px;margin-top:8px">
+              <line x1="40" y1="88" x2="400" y2="88" stroke="#c4cbd6" stroke-width="2"/>
+              <line x1="255" y1="40" x2="255" y2="95" stroke="#c84141" stroke-width="3"/>
+              <line x1="225" y1="48" x2="225" y2="95" stroke="#111827" stroke-width="2"/>
+              <text x="270" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#c84141">MEAN</text>
+              <text x="194" y="50" font-size="11" font-weight="800" fill="#111827">MEDIAN</text>
+              <path d="M75 86 C110 60,145 42,185 40 C220 38,245 50,270 60 C304 73,335 81,375 86"
+                    fill="none" stroke="#c84141" stroke-width="4"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="decision">
+          Branch A has a slightly higher centre, but the more useful insight is that its mean and median are almost identical — a sign of a more balanced performance profile.
+        </div>
+      </div>
+      <div class="slide-number">06 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Dispersion Converts “Uncertainty” Into a Number</h2>
+        <p>Standard deviation and quartile deviation answer a different question from the mean: how widely does performance move?</p>
+      </header>
+      <div class="slide-body" style="flex-direction:column;gap:18px">
+        <div class="grid-2">
+          <div class="panel blue">
+            <div class="eyebrow">Branch A</div>
+            <div class="metric"><span class="label">Standard deviation</span><span class="value" style="color:var(--blue)">5.43k</span></div>
+            <div class="metric"><span class="label">Quartile deviation</span><span class="value">3.75k</span></div>
+          </div>
+          <div class="panel red">
+            <div class="eyebrow">Branch B</div>
+            <div class="metric"><span class="label">Standard deviation</span><span class="value" style="color:var(--red)">15.52k</span></div>
+            <div class="metric"><span class="label">Quartile deviation</span><span class="value">10.75k</span></div>
+          </div>
+        </div>
+
+        <div class="chart-card" style="height:205px">
+          <div class="chart-title">Visual comparison of spread · same scale</div>
+          <svg viewBox="0 0 920 170">
+            <line x1="70" y1="48" x2="850" y2="48" stroke="#c7cdd6" stroke-width="2"/>
+            <line x1="70" y1="122" x2="850" y2="122" stroke="#c7cdd6" stroke-width="2"/>
+            <text x="12" y="53" font-size="13" font-weight="800" fill="#2457d6">A</text>
+            <text x="12" y="127" font-size="13" font-weight="800" fill="#c84141">B</text>
+
+            <line x1="320" y1="48" x2="600" y2="48" stroke="#2457d6" stroke-width="4"/>
+            <rect x="405" y="30" width="110" height="36" fill="#eaf0ff" stroke="#2457d6" stroke-width="2"/>
+            <line x1="460" y1="30" x2="460" y2="66" stroke="#2457d6" stroke-width="3"/>
+            <line x1="320" y1="36" x2="320" y2="60" stroke="#2457d6" stroke-width="2"/>
+            <line x1="600" y1="36" x2="600" y2="60" stroke="#2457d6" stroke-width="2"/>
+
+            <line x1="135" y1="122" x2="790" y2="122" stroke="#c84141" stroke-width="4"/>
+            <rect x="290" y="104" width="340" height="36" fill="#fff0f0" stroke="#c84141" stroke-width="2"/>
+            <line x1="455" y1="104" x2="455" y2="140" stroke="#c84141" stroke-width="3"/>
+            <line x1="135" y1="110" x2="135" y2="134" stroke="#c84141" stroke-width="2"/>
+            <line x1="790" y1="110" x2="790" y2="134" stroke="#c84141" stroke-width="2"/>
+
+            <text x="640" y="53" font-size="12" font-weight="800" fill="#5b6472">Tighter = more predictable</text>
+            <text x="640" y="101" font-size="12" font-weight="800" fill="#5b6472">Wider = more volatile</text>
+          </svg>
+        </div>
+      </div>
+      <div class="slide-number">07 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 8 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Quartiles: Focus on the Core 50% of Performance</h2>
+        <p>Managers often care about the “normal operating zone” more than exceptional highs or lows.</p>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="chart-card">
+            <div class="chart-title">How the distribution is partitioned</div>
+            <svg viewBox="0 0 500 340">
+              <line x1="55" y1="155" x2="445" y2="155" stroke="#b7bec9" stroke-width="3"/>
+              <rect x="145" y="115" width="205" height="80" fill="#eaf0ff" stroke="#2457d6" stroke-width="2"/>
+              <line x1="245" y1="115" x2="245" y2="195" stroke="#111827" stroke-width="4"/>
+              <line x1="55" y1="135" x2="55" y2="175" stroke="#7b8492" stroke-width="3"/>
+              <line x1="445" y1="135" x2="445" y2="175" stroke="#7b8492" stroke-width="3"/>
+              <line x1="55" y1="155" x2="145" y2="155" stroke="#7b8492" stroke-width="3"/>
+              <line x1="350" y1="155" x2="445" y2="155" stroke="#7b8492" stroke-width="3"/>
+
+              <text x="55" y="222" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">MIN</text>
+              <text x="145" y="222" text-anchor="middle" font-size="12" font-weight="800" fill="#2457d6">Q1</text>
+              <text x="245" y="222" text-anchor="middle" font-size="12" font-weight="800" fill="#111827">MEDIAN</text>
+              <text x="350" y="222" text-anchor="middle" font-size="12" font-weight="800" fill="#2457d6">Q3</text>
+              <text x="445" y="222" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">MAX</text>
+
+              <path d="M145 80 L145 54 L350 54 L350 80" fill="none" stroke="#2457d6" stroke-width="3"/>
+              <text x="247" y="40" text-anchor="middle" font-size="15" font-weight="900" fill="#2457d6">Middle 50% = IQR</text>
+
+              <text x="247" y="282" text-anchor="middle" font-size="18" font-weight="900" fill="#111827">QD = (Q3 − Q1) / 2</text>
+              <text x="247" y="311" text-anchor="middle" font-size="13" font-weight="700" fill="#5b6472">Smaller QD → tighter normal operating zone</text>
+            </svg>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="panel green">
+              <div class="eyebrow">Why a manager cares</div>
+              <div style="font-size:21px;font-weight:900;margin-top:7px">Budget around the middle, not the exceptions.</div>
+            </div>
+            <div class="callout">
+              <div><strong>Branch A</strong><div class="small">QD = 3.75k</div></div>
+              <div style="font-size:28px;font-weight:900;color:var(--blue)">narrow core</div>
+            </div>
+            <div class="callout">
+              <div><strong>Branch B</strong><div class="small">QD = 10.75k</div></div>
+              <div style="font-size:28px;font-weight:900;color:var(--red)">wide core</div>
+            </div>
+            <div class="decision">A smaller middle spread makes staffing, inventory and cash-flow planning easier.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">08 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 9 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Regression: Does Advertising Spend Move With Revenue?</h2>
+        <p>A regression line is not just a formula. It is a compact picture of direction, rate of change and prediction quality.</p>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="chart-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div class="chart-title">Branch A</div>
+                <div style="font-weight:900">y = 36.194 + 1.885x</div>
+              </div>
+              <span class="tag blue">r = 0.997</span>
+            </div>
+            <svg viewBox="0 0 470 300">
+              <line x1="55" y1="250" x2="435" y2="250" stroke="#b8c0cc" stroke-width="2"/>
+              <line x1="55" y1="40" x2="55" y2="250" stroke="#b8c0cc" stroke-width="2"/>
+              <line x1="80" y1="230" x2="415" y2="62" stroke="#2457d6" stroke-width="4"/>
+              <g fill="#2457d6">
+                <circle cx="88" cy="224" r="6"/><circle cx="124" cy="204" r="6"/>
+                <circle cx="160" cy="186" r="6"/><circle cx="194" cy="170" r="6"/>
+                <circle cx="230" cy="151" r="6"/><circle cx="266" cy="132" r="6"/>
+                <circle cx="300" cy="116" r="6"/><circle cx="334" cy="97" r="6"/>
+                <circle cx="370" cy="80" r="6"/><circle cx="405" cy="64" r="6"/>
+              </g>
+              <text x="245" y="287" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">ADVERTISING SPEND</text>
+              <text transform="translate(18,150) rotate(-90)" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">REVENUE</text>
+            </svg>
+            <div class="small"><strong>Interpretation:</strong> points lie almost on the line → high predictability.</div>
+          </div>
+
+          <div class="chart-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div class="chart-title">Branch B</div>
+                <div style="font-weight:900">y = 10.158 + 4.594x</div>
+              </div>
+              <span class="tag red">r = 0.850</span>
+            </div>
+            <svg viewBox="0 0 470 300">
+              <line x1="55" y1="250" x2="435" y2="250" stroke="#b8c0cc" stroke-width="2"/>
+              <line x1="55" y1="40" x2="55" y2="250" stroke="#b8c0cc" stroke-width="2"/>
+              <line x1="80" y1="235" x2="415" y2="56" stroke="#c84141" stroke-width="4"/>
+              <g fill="#c84141">
+                <circle cx="88" cy="218" r="6"/><circle cx="124" cy="232" r="6"/>
+                <circle cx="160" cy="174" r="6"/><circle cx="194" cy="186" r="6"/>
+                <circle cx="230" cy="122" r="6"/><circle cx="266" cy="156" r="6"/>
+                <circle cx="300" cy="92" r="6"/><circle cx="334" cy="126" r="6"/>
+                <circle cx="370" cy="64" r="6"/><circle cx="405" cy="86" r="6"/>
+              </g>
+              <text x="245" y="287" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">ADVERTISING SPEND</text>
+              <text transform="translate(18,150) rotate(-90)" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">REVENUE</text>
+            </svg>
+            <div class="small"><strong>Interpretation:</strong> stronger slope, but more scatter → higher prediction error.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">09 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 10 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>Extrapolation: A Model Can Become Dangerous Outside Its Evidence</h2>
+        <p>At $18k advertising spend, Branch B looks dramatically better — but the prediction is outside the observed range.</p>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="chart-card">
+            <div class="chart-title">Observed region vs projected region</div>
+            <svg viewBox="0 0 520 350">
+              <rect x="55" y="48" width="275" height="245" fill="#f0f3f8"/>
+              <rect x="330" y="48" width="145" height="245" fill="#fff4df"/>
+              <line x1="55" y1="293" x2="475" y2="293" stroke="#aeb6c2" stroke-width="2"/>
+              <line x1="55" y1="48" x2="55" y2="293" stroke="#aeb6c2" stroke-width="2"/>
+
+              <line x1="80" y1="265" x2="330" y2="132" stroke="#2457d6" stroke-width="4"/>
+              <line x1="330" y1="132" x2="455" y2="66" stroke="#2457d6" stroke-width="4" stroke-dasharray="8 7"/>
+              <line x1="80" y1="278" x2="330" y2="96" stroke="#c84141" stroke-width="4"/>
+              <line x1="330" y1="96" x2="455" y2="28" stroke="#c84141" stroke-width="4" stroke-dasharray="8 7"/>
+
+              <line x1="330" y1="48" x2="330" y2="293" stroke="#9a6a12" stroke-width="2.5"/>
+              <text x="190" y="78" text-anchor="middle" font-size="12" font-weight="900" fill="#5b6472">OBSERVED DATA</text>
+              <text x="401" y="82" text-anchor="middle" font-size="12" font-weight="900" fill="#9a6a12">EXTRAPOLATION</text>
+
+              <circle cx="455" cy="66" r="7" fill="#2457d6"/>
+              <circle cx="455" cy="28" r="7" fill="#c84141"/>
+              <text x="443" y="92" text-anchor="end" font-size="12" font-weight="900" fill="#2457d6">A ≈ 70.12k</text>
+              <text x="443" y="17" text-anchor="end" font-size="12" font-weight="900" fill="#c84141">B ≈ 92.85k</text>
+
+              <text x="265" y="332" text-anchor="middle" font-size="12" font-weight="800" fill="#5b6472">ADVERTISING SPEND →</text>
+            </svg>
+          </div>
+
+          <div style="display:flex;flex-direction:column;justify-content:center;gap:16px">
+            <div class="panel red">
+              <div class="eyebrow">Tempting conclusion</div>
+              <div class="big-number" style="color:var(--red);margin:8px 0">92.85k</div>
+              <div class="small">Projected Branch B revenue at $18k ad spend.</div>
+            </div>
+            <div class="warning-box">
+              <h3>The model has crossed the evidence boundary.</h3>
+              <p>Past linear behaviour does not guarantee future linear behaviour. Saturation, capacity limits, competition and diminishing returns may break the pattern.</p>
+            </div>
+            <div class="decision">Prediction confidence should decrease as the model moves further away from the data used to build it.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">10 / 11</div>
+    </section>
+  </div>
+
+  <!-- SLIDE 11 -->
+  <div class="slide-wrapper">
+    <section class="slide">
+      <header class="slide-header">
+        <h2>The Statistics Do Not Choose. The Objective Chooses.</h2>
+        <p>The same evidence can support different decisions when management priorities differ.</p>
+      </header>
+      <div class="slide-body" style="flex-direction:column;gap:18px">
+        <div class="decision-matrix">
+          <div class="head">Decision lens</div>
+          <div class="head a">Branch A</div>
+          <div class="head b">Branch B</div>
+
+          <div>Typical revenue</div>
+          <div class="a"><span class="score">54.10k</span><div class="small">slightly stronger centre</div></div>
+          <div class="b"><span class="score">53.80k</span><div class="small">similar centre</div></div>
+
+          <div>Revenue stability</div>
+          <div class="a"><span class="score">5.43k SD</span><div class="small">more predictable</div></div>
+          <div class="b"><span class="score">15.52k SD</span><div class="small">more volatile</div></div>
+
+          <div>Ad-response fit</div>
+          <div class="a"><span class="score">r = 0.997</span><div class="small">very strong reliability</div></div>
+          <div class="b"><span class="score">r = 0.850</span><div class="small">more uncertainty</div></div>
+
+          <div>Upside at high spend</div>
+          <div class="a"><span class="score">Lower</span><div class="small">more controlled growth</div></div>
+          <div class="b"><span class="score">Higher</span><div class="small">but extrapolation risk</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel blue">
+            <div class="eyebrow">If the CEO prioritizes stability</div>
+            <div style="font-size:27px;font-weight:900;margin-top:6px">Choose Branch A</div>
+          </div>
+          <div class="panel red">
+            <div class="eyebrow">If the CEO prioritizes aggressive upside</div>
+            <div style="font-size:27px;font-weight:900;margin-top:6px">Branch B may be considered</div>
+          </div>
+        </div>
+
+        <div class="decision" style="text-align:center;border-left:0;border-top:4px solid #111827">
+          A statistic is useful only when it improves a business decision.
+        </div>
+      </div>
+      <div class="slide-number">11 / 11</div>
+    </section>
+  </div>
+
+</div>
+
+<script>
+  const BASE_W = 1200;
+  const BASE_H = 675;
+  const slides = Array.from(document.querySelectorAll('.slide-wrapper'));
+  const totalSlides = slides.length;
+  const presentation = document.querySelector('.presentation-container');
+  const controlBar = document.querySelector('.control-bar');
+  const indicator = document.getElementById('slide-indicator');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const modeBtn = document.getElementById('toggle-mode-btn');
+
+  let isFullscreen = false;
+  let currentSlideIndex = 0;
+  let observerLock = false;
+
+  function availableScale(wrapper, fullscreen=false){
+    let availW, availH;
+    if(fullscreen){
+      const sideMargin = window.innerWidth <= 700 ? 24 : 48;
+      const bottomMargin = window.innerWidth <= 700 ? 12 : 24;
+      const topSpace = window.innerWidth <= 700 ? 78 : 92;
+      availW = Math.max(240, window.innerWidth - sideMargin);
+      availH = Math.max(180, window.innerHeight - topSpace - bottomMargin);
+    }else{
+      const containerWidth = presentation.clientWidth || window.innerWidth;
+      availW = Math.max(240, containerWidth);
+      availH = BASE_H;
+    }
+    return Math.min(availW / BASE_W, availH / BASE_H, 1);
+  }
+
+  function scaleOne(wrapper, fullscreen=false){
+    const slide = wrapper.querySelector('.slide');
+    const scale = availableScale(wrapper, fullscreen);
+    slide.style.transform = `scale(${scale})`;
+    wrapper.style.width = `${BASE_W * scale}px`;
+    wrapper.style.height = `${BASE_H * scale}px`;
+  }
+
+  function scaleSlides(){
+    if(isFullscreen){
+      scaleOne(slides[currentSlideIndex], true);
+    }else{
+      slides.forEach(s => scaleOne(s, false));
+    }
+  }
+
+  function syncControls(){
+    indicator.textContent = isFullscreen
+      ? `Slide ${currentSlideIndex + 1} of ${totalSlides}`
+      : `Slide ${currentSlideIndex + 1} of ${totalSlides} · Scroll Mode`;
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
+  }
+
+  function showFullscreenSlide(){
+    slides.forEach((slide,index) => {
+      slide.classList.toggle('active', index === currentSlideIndex);
+      slide.style.display = index === currentSlideIndex ? 'flex' : 'none';
+    });
+    scaleSlides();
+    syncControls();
+  }
+
+  function toggleSlideshow(){
+    isFullscreen = !isFullscreen;
+    document.body.classList.toggle('fullscreen-mode', isFullscreen);
+    modeBtn.textContent = isFullscreen ? 'Exit Slideshow' : 'Start Slideshow';
+
+    if(isFullscreen){
+      showFullscreenSlide();
+    }else{
+      slides.forEach(s => s.style.display = 'flex');
+      requestAnimationFrame(() => {
+        scaleSlides();
+        syncControls();
+        observerLock = true;
+        slides[currentSlideIndex].scrollIntoView({behavior:'auto', block:'center'});
+        setTimeout(() => observerLock = false, 150);
+      });
+    }
+  }
+
+  function changeSlide(direction){
+    currentSlideIndex = (currentSlideIndex + direction + totalSlides) % totalSlides;
+
+    if(isFullscreen){
+      showFullscreenSlide();
+    }else{
+      observerLock = true;
+      slides[currentSlideIndex].scrollIntoView({behavior:'smooth', block:'center'});
+      syncControls();
+      setTimeout(() => observerLock = false, 500);
+    }
+  }
+
+  function playStarbucksVideo(){
+    const frame = document.getElementById('starbucks-video');
+    if(!frame || frame.querySelector('iframe')) return;
+    frame.innerHTML = `
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/URnKTnWJhDA?autoplay=1&rel=0&modestbranding=1"
+        title="Starbucks Data Analytics Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>`;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    if(isFullscreen || observerLock) return;
+    let best = null;
+    entries.forEach(entry => {
+      if(entry.isIntersecting && (!best || entry.intersectionRatio > best.intersectionRatio)) best = entry;
+    });
+    if(best){
+      const idx = slides.indexOf(best.target);
+      if(idx >= 0){
+        currentSlideIndex = idx;
+        syncControls();
+      }
+    }
+  }, {threshold:[0.25,0.45,0.6,0.75]});
+
+  slides.forEach(s => observer.observe(s));
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){
+      e.preventDefault();
+      changeSlide(1);
+    }else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){
+      e.preventDefault();
+      changeSlide(-1);
+    }else if(isFullscreen && e.key === ' '){
+      e.preventDefault();
+      changeSlide(1);
+    }else if(isFullscreen && e.key === 'Escape'){
+      toggleSlideshow();
+    }
+  });
+
+  window.addEventListener('resize', () => requestAnimationFrame(scaleSlides));
+  window.addEventListener('load', () => {
+    scaleSlides();
+    syncControls();
+  });
+</script>
+</body>
+</html>
